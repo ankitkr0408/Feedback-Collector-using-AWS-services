@@ -1,23 +1,47 @@
-# 📬 Serverless Feedback Collection System using AWS
+# Serverless Feedback Collection System using AWS
+
+A lightweight, serverless web application that collects user feedback in real-time using AWS services — without any backend server. Ideal for college mini-projects, feedback systems, and AWS practice.
+
+---
 
 ## 📌 Project Overview
 
-This project is a mini cloud-based feedback system built using **AWS services** including **S3, API Gateway, Lambda**, and **DynamoDB**. Users can fill out a feedback form hosted on a static website, and the data is processed and stored without any backend server setup — using fully **serverless architecture**.
+This project uses a fully serverless architecture with AWS to accept and store user feedback through a static web form. It eliminates the need for traditional server hosting or complex backend configurations.
 
 ---
 
-## 🚀 Features
+## 🎯 Objective
 
-- 📄 HTML form hosted via **Amazon S3**
-- 🔗 Submits data through **API Gateway**
-- ⚙️ Feedback processed by **AWS Lambda**
-- 💾 Data saved in **DynamoDB**
-- 📋 Logs managed by **CloudWatch**
-- 📧 *(Future Scope)*: Email notifications using **AWS SES**
+Build a feedback collection system using the following AWS services:
+
+- Amazon S3
+- API Gateway
+- AWS Lambda
+- DynamoDB
 
 ---
 
-## 🧱 Tech Stack
+## 🧩 Problem Statement
+
+Traditional feedback systems require managing infrastructure like servers and databases. This adds cost, maintenance, and complexity.
+
+This project simplifies that using serverless services — reducing effort while improving scalability and ease of deployment.
+
+---
+
+## ✅ Key Features
+
+- **100% Serverless** – No servers to manage
+- **Cost-Efficient** – Pay only for usage
+- **Real-Time Storage** – Immediate data capture via DynamoDB
+- **Frontend Hosted on S3** – Easy static web hosting
+- **Secure and Scalable**
+- **Monitoring via CloudWatch Logs**
+
+---
+
+## 🔧 AWS Services Used and 🧱 Tech Stack
+
 
 | Component     | Service/Tech               |
 |---------------|----------------------------|
@@ -33,26 +57,40 @@ This project is a mini cloud-based feedback system built using **AWS services** 
 
 ## ⚙️ How It Works
 
-1. User fills the form → `index.html`
-2. `fetch()` sends POST request to API Gateway
-3. API Gateway routes request to Lambda
-4. Lambda parses and stores data into DynamoDB
-5. (Future) Lambda can also send email via AWS SES
+1. User opens the HTML feedback form hosted on **Amazon S3**
+2. On submission, form sends a **POST** request to **API Gateway**
+3. API Gateway triggers a **Lambda function**
+4. Lambda processes the feedback and stores it in **DynamoDB**
 
 ---
 
-## 💻 Setup Guide with AWS Console/CLI
+## 🚀 Implementation Steps
 
-### 1. 🧾 Create DynamoDB Table
+### 1. Create DynamoDB Table
 
-- Table name: `Feedback`
-- Partition key: `id` (String)
+- **Table Name**: `Feedback`
+- **Primary Key**: `id` (String)
 
-OR using CLI:
+### 2. Lambda Function
 
-```bash
-aws dynamodb create-table \
-  --table-name Feedback \
-  --attribute-definitions AttributeName=id,AttributeType=S \
-  --key-schema AttributeName=id,KeyType=HASH \
-  --billing-mode PAY_PER_REQUEST
+- Parses JSON input from API Gateway
+- Generates a unique ID and timestamp
+- Writes data to DynamoDB
+
+### 3. Configure API Gateway
+
+- **Route**: `POST /submitFeedback`
+- Integration: Linked to Lambda
+- Enable **CORS** for frontend access
+
+### 4. Upload Frontend to S3
+
+- Upload `index.html`
+- Enable **Static Website Hosting**
+- Form uses `fetch()` to send data to the API Gateway URL
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License. See `LICENSE` for more info.
